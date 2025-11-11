@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Blender
+*.blend1
+*.blend2
+
+# Generated data (don't commit actual dataset samples to git)
+samples/
+output/
+rendered/
+*.exr
+*.png
+*.jpg
+*.mp4
+*.mov
+
+# AWS credentials
+.aws/
+credentials
+*.pem
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/

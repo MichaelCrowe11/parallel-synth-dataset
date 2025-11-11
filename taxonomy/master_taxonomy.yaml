@@ -1,0 +1,766 @@
+# Master Taxonomy for 3D Rendering & VFX Dataset
+# Target: 500M samples across all categories
+# Version: 1.0
+
+taxonomy:
+
+  # ============================================================================
+  # CAMERA (Target: 50M samples)
+  # ============================================================================
+  camera:
+    target_samples: 50000000
+
+    angles:
+      samples_per_subcategory: 2000000
+      types:
+        - eye_level
+        - high_angle
+        - low_angle
+        - birds_eye
+        - worms_eye
+        - dutch_angle
+        - overhead
+        - ground_level
+        - aerial
+        - satellite
+
+    movements:
+      samples_per_subcategory: 1500000
+      types:
+        - static
+        - pan
+        - tilt
+        - dolly
+        - truck
+        - pedestal
+        - zoom
+        - handheld
+        - steadicam
+        - crane
+        - drone
+        - orbit
+        - tracking
+        - whip_pan
+        - rack_focus
+
+    lenses:
+      samples_per_subcategory: 1000000
+      focal_lengths:
+        - ultra_wide: [8, 16]
+        - wide: [17, 35]
+        - normal: [36, 55]
+        - portrait: [56, 85]
+        - telephoto: [86, 200]
+        - super_telephoto: [201, 600]
+
+      lens_types:
+        - prime
+        - zoom
+        - fisheye
+        - tilt_shift
+        - macro
+        - anamorphic
+
+    depth_of_field:
+      samples_per_subcategory: 1000000
+      types:
+        - shallow
+        - medium
+        - deep
+        - focus_stacking
+        - split_diopter
+
+    framing:
+      samples_per_subcategory: 1500000
+      types:
+        - extreme_wide_shot
+        - wide_shot
+        - full_shot
+        - medium_shot
+        - close_up
+        - extreme_close_up
+        - two_shot
+        - over_shoulder
+        - point_of_view
+
+  # ============================================================================
+  # LIGHTING (Target: 80M samples)
+  # ============================================================================
+  lighting:
+    target_samples: 80000000
+
+    setup_types:
+      samples_per_subcategory: 2000000
+      types:
+        - three_point
+        - key_light_only
+        - rembrandt
+        - split
+        - butterfly
+        - loop
+        - broad
+        - short
+        - rim
+        - silhouette
+        - high_key
+        - low_key
+        - practical
+        - motivated
+        - natural
+
+    light_sources:
+      samples_per_subcategory: 1500000
+      types:
+        - sun
+        - sky
+        - hdri
+        - area_light
+        - point_light
+        - spot_light
+        - directional
+        - ies
+        - emissive_mesh
+        - volumetric
+        - caustics
+        - global_illumination
+
+    time_of_day:
+      samples_per_subcategory: 2500000
+      types:
+        - dawn
+        - morning
+        - noon
+        - afternoon
+        - golden_hour
+        - dusk
+        - night
+        - blue_hour
+        - overcast
+
+    color_temperature:
+      samples_per_subcategory: 1500000
+      kelvin_ranges:
+        - candlelight: [1500, 2000]
+        - warm_tungsten: [2000, 3000]
+        - tungsten: [3000, 3500]
+        - warm_white: [3500, 4000]
+        - neutral_white: [4000, 5000]
+        - daylight: [5000, 6500]
+        - cool_white: [6500, 8000]
+        - overcast: [8000, 10000]
+        - blue_sky: [10000, 15000]
+
+    atmosphere:
+      samples_per_subcategory: 2000000
+      types:
+        - clear
+        - hazy
+        - foggy
+        - misty
+        - dusty
+        - smoky
+        - volumetric_rays
+        - god_rays
+        - light_shafts
+
+  # ============================================================================
+  # MATERIALS (Target: 100M samples)
+  # ============================================================================
+  materials:
+    target_samples: 100000000
+
+    pbr_metals:
+      samples_per_subcategory: 2000000
+      types:
+        - iron
+        - steel
+        - aluminum
+        - copper
+        - brass
+        - bronze
+        - gold
+        - silver
+        - platinum
+        - titanium
+        - chrome
+        - brushed_metal
+        - anodized
+        - oxidized
+        - rusted
+        - corroded
+
+    pbr_dielectrics:
+      samples_per_subcategory: 2000000
+      types:
+        - plastic_glossy
+        - plastic_matte
+        - rubber
+        - leather
+        - wood
+        - concrete
+        - stone
+        - ceramic
+        - porcelain
+        - paint
+        - varnish
+        - lacquer
+
+    glass:
+      samples_per_subcategory: 3000000
+      types:
+        - clear_glass
+        - frosted_glass
+        - tinted_glass
+        - stained_glass
+        - textured_glass
+        - crystal
+        - diamond
+        - ice
+        - refractive_gem
+
+      properties:
+        ior_ranges:
+          - air: 1.0
+          - water: 1.33
+          - glass: 1.5
+          - crystal: 1.6
+          - diamond: 2.42
+
+        roughness:
+          - perfectly_smooth: 0.0
+          - slight_roughness: 0.1
+          - frosted: 0.5
+          - heavily_frosted: 0.9
+
+    subsurface:
+      samples_per_subcategory: 2500000
+      types:
+        - skin_human
+        - skin_creature
+        - wax
+        - marble
+        - jade
+        - milk
+        - wax_candle
+        - soap
+        - silicone
+        - translucent_plastic
+        - leaves
+        - petals
+
+    fabric:
+      samples_per_subcategory: 2000000
+      types:
+        - cotton
+        - silk
+        - wool
+        - linen
+        - velvet
+        - satin
+        - denim
+        - leather_fabric
+        - synthetic
+        - knit
+        - lace
+        - mesh
+
+    organic:
+      samples_per_subcategory: 2000000
+      types:
+        - bark
+        - soil
+        - sand
+        - grass
+        - moss
+        - lichen
+        - fur
+        - feathers
+        - scales
+        - chitin
+
+  # ============================================================================
+  # TEXTURES (Target: 60M samples)
+  # ============================================================================
+  textures:
+    target_samples: 60000000
+
+    procedural:
+      samples_per_subcategory: 1500000
+      types:
+        - noise_perlin
+        - noise_voronoi
+        - noise_simplex
+        - noise_worley
+        - wave
+        - gradient
+        - brick
+        - checker
+        - grid
+        - dots
+        - stripes
+        - fractal
+        - cellular
+        - musgrave
+
+    photorealistic:
+      samples_per_subcategory: 2000000
+      categories:
+        - wood_grain
+        - stone_patterns
+        - metal_surface
+        - concrete_wear
+        - fabric_weave
+        - leather_texture
+        - skin_pores
+        - ground_terrain
+        - wall_surface
+        - floor_tiles
+
+    stylized:
+      samples_per_subcategory: 1500000
+      types:
+        - hand_painted
+        - cartoon
+        - cel_shaded
+        - low_poly
+        - pixel_art
+        - sketch
+        - watercolor
+        - oil_paint
+        - flat_color
+        - gradient_map
+
+    maps:
+      samples_per_subcategory: 1000000
+      types:
+        - albedo
+        - normal
+        - roughness
+        - metallic
+        - height
+        - displacement
+        - ambient_occlusion
+        - emission
+        - opacity
+        - subsurface_color
+
+  # ============================================================================
+  # LIQUIDS (Target: 40M samples)
+  # ============================================================================
+  liquids:
+    target_samples: 40000000
+
+    water:
+      samples_per_subcategory: 2500000
+      states:
+        - still
+        - ripples
+        - waves_small
+        - waves_large
+        - splashes
+        - droplets
+        - spray
+        - foam
+        - bubbles
+        - underwater
+
+      environments:
+        - ocean
+        - lake
+        - river
+        - pool
+        - puddle
+        - rain
+        - waterfall
+        - rapids
+
+    viscous:
+      samples_per_subcategory: 2000000
+      types:
+        - oil
+        - honey
+        - syrup
+        - paint
+        - ink
+        - blood
+        - lava
+        - slime
+        - gel
+        - resin
+
+    properties:
+      samples_per_subcategory: 1500000
+      characteristics:
+        - surface_tension
+        - capillary_action
+        - viscosity_low
+        - viscosity_medium
+        - viscosity_high
+        - transparent
+        - translucent
+        - opaque
+        - colored
+        - reflective
+
+    simulations:
+      samples_per_subcategory: 2000000
+      types:
+        - fluid_simulation
+        - flip_fluid
+        - sph_particles
+        - mantaflow
+        - realflow_style
+        - flip_splash
+        - whitewater
+        - ocean_modifier
+
+  # ============================================================================
+  # GASES (Target: 35M samples)
+  # ============================================================================
+  gases:
+    target_samples: 35000000
+
+    smoke:
+      samples_per_subcategory: 2000000
+      types:
+        - cigarette_smoke
+        - industrial_smoke
+        - chimney_smoke
+        - fire_smoke
+        - wispy_smoke
+        - thick_smoke
+        - colored_smoke
+        - smoke_trails
+
+    fog:
+      samples_per_subcategory: 2000000
+      types:
+        - ground_fog
+        - atmospheric_fog
+        - dense_fog
+        - mist
+        - haze
+        - fog_layers
+        - rolling_fog
+
+    clouds:
+      samples_per_subcategory: 2500000
+      types:
+        - cumulus
+        - stratus
+        - cirrus
+        - cumulonimbus
+        - storm_clouds
+        - volumetric_clouds
+        - stylized_clouds
+        - cloud_layers
+
+    fire:
+      samples_per_subcategory: 2000000
+      types:
+        - candle_flame
+        - torch
+        - campfire
+        - bonfire
+        - explosion
+        - fireball
+        - embers
+        - sparks
+        - plasma
+
+    volumetrics:
+      samples_per_subcategory: 1500000
+      types:
+        - dust_particles
+        - steam
+        - breath_vapor
+        - exhaust
+        - gas_plumes
+        - energy_fields
+        - magical_effects
+
+  # ============================================================================
+  # GEOMETRY (Target: 45M samples)
+  # ============================================================================
+  geometry:
+    target_samples: 45000000
+
+    primitives:
+      samples_per_subcategory: 1000000
+      types:
+        - cube
+        - sphere
+        - cylinder
+        - cone
+        - torus
+        - plane
+        - icosphere
+        - uv_sphere
+        - capsule
+        - pyramid
+
+    complex_meshes:
+      samples_per_subcategory: 2000000
+      types:
+        - organic_forms
+        - hard_surface
+        - character_models
+        - environment_assets
+        - props
+        - vehicles
+        - architecture
+        - creatures
+        - mechanical
+
+    topology:
+      samples_per_subcategory: 1500000
+      types:
+        - quad_mesh
+        - triangle_mesh
+        - ngon_mesh
+        - subdivision_ready
+        - low_poly
+        - mid_poly
+        - high_poly
+        - optimized_game_mesh
+
+    subdivision:
+      samples_per_subcategory: 1000000
+      levels:
+        - base_mesh
+        - subdiv_1
+        - subdiv_2
+        - subdiv_3
+        - subdiv_4
+        - adaptive_subdivision
+
+    modifiers:
+      samples_per_subcategory: 1500000
+      types:
+        - mirror
+        - array
+        - bevel
+        - boolean
+        - solidify
+        - skin
+        - remesh
+        - decimate
+        - smooth
+        - displace
+
+  # ============================================================================
+  # RENDERING TECHNIQUES (Target: 40M samples)
+  # ============================================================================
+  rendering:
+    target_samples: 40000000
+
+    ray_tracing:
+      samples_per_subcategory: 2000000
+      types:
+        - path_tracing
+        - bidirectional_path_tracing
+        - metropolis_light_transport
+        - photon_mapping
+        - progressive_rendering
+        - denoised
+        - raw_samples
+
+    rasterization:
+      samples_per_subcategory: 1500000
+      types:
+        - forward_rendering
+        - deferred_rendering
+        - forward_plus
+        - tiled_forward
+        - real_time
+
+    sampling:
+      samples_per_subcategory: 1000000
+      sample_counts:
+        - low: [16, 64]
+        - medium: [128, 512]
+        - high: [1024, 4096]
+        - ultra: [8192, 16384]
+
+    render_passes:
+      samples_per_subcategory: 1500000
+      types:
+        - beauty
+        - diffuse
+        - specular
+        - reflection
+        - refraction
+        - emission
+        - ambient_occlusion
+        - shadow
+        - normal
+        - depth
+        - mist
+        - object_id
+        - material_id
+
+    engines:
+      samples_per_subcategory: 1000000
+      types:
+        - cycles
+        - eevee
+        - arnold
+        - redshift
+        - octane
+        - vray
+        - renderman
+        - corona
+        - mantra
+        - karma
+
+  # ============================================================================
+  # POST-PROCESSING (Target: 30M samples)
+  # ============================================================================
+  post_processing:
+    target_samples: 30000000
+
+    compositing:
+      samples_per_subcategory: 1500000
+      operations:
+        - layering
+        - masking
+        - alpha_blending
+        - screen_space_effects
+        - depth_compositing
+        - cryptomatte
+        - id_matte
+
+    color_grading:
+      samples_per_subcategory: 2000000
+      types:
+        - color_correction
+        - curves
+        - levels
+        - hue_saturation
+        - contrast
+        - vibrance
+        - lut_application
+        - film_emulation
+        - cinematic_grading
+
+    effects:
+      samples_per_subcategory: 1500000
+      types:
+        - bloom
+        - glare
+        - lens_flare
+        - chromatic_aberration
+        - vignette
+        - film_grain
+        - noise
+        - sharpen
+        - blur
+        - depth_of_field_post
+        - motion_blur
+        - light_rays
+
+    denoising:
+      samples_per_subcategory: 1000000
+      types:
+        - optix_denoiser
+        - oidn
+        - bilateral
+        - nlm
+        - ai_denoiser
+
+  # ============================================================================
+  # ART STYLES (Target: 25M samples)
+  # ============================================================================
+  art_styles:
+    target_samples: 25000000
+
+    realism:
+      samples_per_subcategory: 2000000
+      types:
+        - photorealism
+        - hyperrealism
+        - architectural_visualization
+        - product_visualization
+        - medical_visualization
+
+    stylized:
+      samples_per_subcategory: 1500000
+      types:
+        - low_poly
+        - flat_shading
+        - cel_shaded
+        - toon_shading
+        - comic_book
+        - graphic_novel
+
+    npr:
+      samples_per_subcategory: 1500000
+      types:
+        - sketch
+        - watercolor
+        - oil_painting
+        - pencil_drawing
+        - ink_drawing
+        - hatching
+        - cross_hatching
+
+    animation_styles:
+      samples_per_subcategory: 1500000
+      types:
+        - pixar_style
+        - disney_style
+        - dreamworks_style
+        - anime
+        - stop_motion
+        - claymation
+
+  # ============================================================================
+  # COLOR THEORY (Target: 15M samples)
+  # ============================================================================
+  color:
+    target_samples: 15000000
+
+    palettes:
+      samples_per_subcategory: 1000000
+      types:
+        - monochromatic
+        - analogous
+        - complementary
+        - split_complementary
+        - triadic
+        - tetradic
+        - warm
+        - cool
+        - pastel
+        - vibrant
+        - muted
+        - high_contrast
+        - low_contrast
+
+    mood:
+      samples_per_subcategory: 1500000
+      types:
+        - cheerful
+        - melancholic
+        - energetic
+        - calm
+        - dramatic
+        - mysterious
+        - romantic
+        - horror
+        - sci_fi
+        - fantasy
+
+    temperature:
+      samples_per_subcategory: 1000000
+      types:
+        - warm
+        - cool
+        - neutral
+        - gradient_warm_to_cool
+
+# ============================================================================
+# COMBINATIONS & VARIATIONS
+# ============================================================================
+# The remaining samples (approximately 100M) will be combinations of the above
+# categories to create complex, realistic scenarios with multiple attributes.
