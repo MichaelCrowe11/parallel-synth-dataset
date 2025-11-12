@@ -1,0 +1,30 @@
+# Core dependencies
+numpy>=1.24.0
+Pillow>=10.0.0
+opencv-python>=4.8.0
+pyyaml>=6.0
+
+# Machine Learning
+torch>=2.0.0
+torchvision>=0.15.0
+webdataset>=0.2.0
+
+# Data handling
+pyarrow>=12.0.0
+pandas>=2.0.0
+
+# AWS Integration
+boto3>=1.28.0
+botocore>=1.31.0
+
+# Progress and utilities
+tqdm>=4.65.0
+click>=8.1.0
+
+# Image processing
+scikit-image>=0.21.0
+
+# Optional: For advanced features
+# transformers>=4.30.0  # For CLIP, BLIP, etc.
+# accelerate>=0.20.0    # For distributed training
+# diffusers>=0.18.0     # For diffusion models

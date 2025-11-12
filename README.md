@@ -3,20 +3,22 @@
 
 A comprehensive dataset scaffolding system for training multimodal AI models on 3D rendering, VFX, and computer graphics.
 
+**Part of the Deep Parallel Workspace** - A unified AI model training infrastructure for Parallel Synth Media & Animation company.
+
 ## Dataset Overview
 
 This dataset covers the complete spectrum of 3D computer graphics:
-- **Camera**: Angles, movements, lenses, focal lengths, depth of field
-- **Lighting**: Studio setups, HDRI, natural/artificial, color temperature
-- **Materials**: PBR, glass, metal, plastic, fabric, organic, subsurface scattering
-- **Textures**: Procedural, photorealistic, stylized, UV mapping
-- **Liquids**: Water, oil, paint, milk, viscosity variations
-- **Gases**: Smoke, fog, clouds, fire, volumetrics
-- **Geometry**: Primitives, complex meshes, topology, subdivision
-- **Rendering**: Ray tracing, path tracing, rasterization techniques
-- **Post-Processing**: Compositing, color grading, effects
-- **Art Styles**: Photorealism, stylized, NPR, cartoon, anime
-- **Color Theory**: Palettes, harmony, temperature, mood
+- **Camera** (50M samples): Angles, movements, lenses, focal lengths, depth of field
+- **Lighting** (80M samples): Studio setups, HDRI, natural/artificial, color temperature
+- **Materials** (100M samples): PBR, glass, metal, plastic, fabric, organic, subsurface scattering
+- **Textures** (60M samples): Procedural, photorealistic, stylized, UV mapping
+- **Liquids** (40M samples): Water, oil, paint, milk, viscosity variations
+- **Gases** (35M samples): Smoke, fog, clouds, fire, volumetrics
+- **Geometry** (45M samples): Primitives, complex meshes, topology, subdivision
+- **Rendering** (40M samples): Ray tracing, path tracing, rasterization techniques
+- **Post-Processing** (30M samples): Compositing, color grading, effects
+- **Art Styles** (25M samples): Photorealism, stylized, NPR, cartoon, anime
+- **Color Theory** (15M samples): Palettes, harmony, temperature, mood
 
 ## Data Formats
 
@@ -52,6 +54,34 @@ parallel_synth_dataset/
 
 All data stored in AWS S3 buckets with organized prefixes and metadata tagging.
 
-## Getting Started
+## Quick Start
 
-See `documentation/quickstart.md` for setup instructions.
+```bash
+# 1. Install dependencies
+pip install -r requirements.txt
+
+# 2. Generate samples
+blender --background --python generators/blender_generator.py -- \
+  --output ./output/samples \
+  --taxonomy ./taxonomy/master_taxonomy.yaml \
+  --count 10
+
+# 3. Validate quality
+python quality_control/validator.py \
+  --samples-dir ./output/samples \
+  --report ./output/validation_report.json
+
+# 4. Create training dataset
+python pipelines/image_text_pipeline.py \
+  --samples-dir ./output/samples \
+  --output-dir ./output/training_data \
+  --format all
+
+# 5. Upload to S3
+python aws_integration/s3_uploader.py \
+  --bucket parallel-synth-dataset \
+  --samples-dir ./output/samples \
+  --category test_run
+```
+
+See `documentation/quickstart.md` for detailed instructions.

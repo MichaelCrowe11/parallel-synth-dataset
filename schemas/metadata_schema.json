@@ -1,0 +1,324 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Parallel Synth 3D Rendering Dataset Metadata Schema",
+  "description": "Comprehensive metadata schema for 3D rendering and VFX samples",
+  "type": "object",
+  "required": ["sample_id", "version", "timestamp", "categories", "rendering"],
+  "properties": {
+    "sample_id": {
+      "type": "string",
+      "description": "Unique identifier for this sample (UUID format)",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "version": {
+      "type": "string",
+      "description": "Schema version",
+      "default": "1.0.0"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of sample generation"
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["procedural", "captured", "hybrid", "manual"],
+          "description": "How this sample was created"
+        },
+        "generator": {
+          "type": "string",
+          "description": "Tool or script used to generate (e.g., Blender 4.0, custom_pipeline_v2)"
+        },
+        "seed": {
+          "type": "integer",
+          "description": "Random seed for reproducibility"
+        }
+      }
+    },
+    "files": {
+      "type": "object",
+      "description": "Associated files for this sample",
+      "properties": {
+        "image": {
+          "type": "object",
+          "properties": {
+            "path": {"type": "string"},
+            "format": {"type": "string", "enum": ["png", "jpg", "exr", "tiff"]},
+            "resolution": {
+              "type": "object",
+              "properties": {
+                "width": {"type": "integer"},
+                "height": {"type": "integer"}
+              }
+            },
+            "bit_depth": {"type": "integer", "enum": [8, 16, 32]},
+            "color_space": {"type": "string", "enum": ["sRGB", "Linear", "ACEScg", "ACES2065-1"]}
+          }
+        },
+        "video": {
+          "type": "object",
+          "properties": {
+            "path": {"type": "string"},
+            "format": {"type": "string"},
+            "duration": {"type": "number"},
+            "fps": {"type": "number"},
+            "frame_count": {"type": "integer"}
+          }
+        },
+        "3d_asset": {
+          "type": "object",
+          "properties": {
+            "blend_file": {"type": "string"},
+            "usd_file": {"type": "string"},
+            "fbx_file": {"type": "string"},
+            "gltf_file": {"type": "string"}
+          }
+        },
+        "render_passes": {
+          "type": "object",
+          "description": "Additional render passes",
+          "properties": {
+            "beauty": {"type": "string"},
+            "diffuse": {"type": "string"},
+            "specular": {"type": "string"},
+            "reflection": {"type": "string"},
+            "refraction": {"type": "string"},
+            "emission": {"type": "string"},
+            "normal": {"type": "string"},
+            "depth": {"type": "string"},
+            "ao": {"type": "string"},
+            "shadow": {"type": "string"},
+            "id": {"type": "string"}
+          }
+        }
+      }
+    },
+    "categories": {
+      "type": "object",
+      "description": "Primary taxonomy categories this sample belongs to",
+      "properties": {
+        "camera": {"$ref": "#/definitions/camera"},
+        "lighting": {"$ref": "#/definitions/lighting"},
+        "materials": {"$ref": "#/definitions/materials"},
+        "textures": {"$ref": "#/definitions/textures"},
+        "liquids": {"$ref": "#/definitions/liquids"},
+        "gases": {"$ref": "#/definitions/gases"},
+        "geometry": {"$ref": "#/definitions/geometry"},
+        "rendering": {"$ref": "#/definitions/rendering"},
+        "post_processing": {"$ref": "#/definitions/post_processing"},
+        "art_style": {"$ref": "#/definitions/art_style"},
+        "color": {"$ref": "#/definitions/color"}
+      }
+    },
+    "captions": {
+      "type": "object",
+      "description": "Text descriptions at various detail levels",
+      "properties": {
+        "short": {
+          "type": "string",
+          "description": "Brief description (1-2 sentences, <50 words)",
+          "maxLength": 200
+        },
+        "medium": {
+          "type": "string",
+          "description": "Detailed description (3-5 sentences, <150 words)",
+          "maxLength": 600
+        },
+        "long": {
+          "type": "string",
+          "description": "Comprehensive technical description (>150 words)",
+          "maxLength": 2000
+        },
+        "technical": {
+          "type": "string",
+          "description": "Highly technical description with specific parameters"
+        },
+        "artistic": {
+          "type": "string",
+          "description": "Artistic and mood-focused description"
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "description": "Searchable tags",
+      "items": {"type": "string"}
+    },
+    "quality_metrics": {
+      "type": "object",
+      "properties": {
+        "render_time": {"type": "number", "description": "Render time in seconds"},
+        "sample_count": {"type": "integer"},
+        "noise_level": {"type": "number", "minimum": 0, "maximum": 1},
+        "validation_score": {"type": "number", "minimum": 0, "maximum": 1},
+        "human_verified": {"type": "boolean"}
+      }
+    }
+  },
+  "definitions": {
+    "camera": {
+      "type": "object",
+      "properties": {
+        "angle": {"type": "string"},
+        "movement": {"type": "string"},
+        "lens": {
+          "type": "object",
+          "properties": {
+            "focal_length": {"type": "number"},
+            "type": {"type": "string"},
+            "aperture": {"type": "number"}
+          }
+        },
+        "depth_of_field": {"type": "string"},
+        "framing": {"type": "string"},
+        "position": {
+          "type": "object",
+          "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "z": {"type": "number"}}
+        },
+        "rotation": {
+          "type": "object",
+          "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "z": {"type": "number"}}
+        }
+      }
+    },
+    "lighting": {
+      "type": "object",
+      "properties": {
+        "setup_type": {"type": "string"},
+        "lights": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {"type": "string"},
+              "intensity": {"type": "number"},
+              "color": {"type": "string"},
+              "temperature": {"type": "number"},
+              "position": {
+                "type": "object",
+                "properties": {"x": {"type": "number"}, "y": {"type": "number"}, "z": {"type": "number"}}
+              }
+            }
+          }
+        },
+        "time_of_day": {"type": "string"},
+        "atmosphere": {"type": "string"}
+      }
+    },
+    "materials": {
+      "type": "object",
+      "properties": {
+        "primary_material": {"type": "string"},
+        "material_list": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "type": {"type": "string"},
+              "pbr_parameters": {
+                "type": "object",
+                "properties": {
+                  "base_color": {"type": "string"},
+                  "metallic": {"type": "number"},
+                  "roughness": {"type": "number"},
+                  "ior": {"type": "number"},
+                  "transmission": {"type": "number"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "textures": {
+      "type": "object",
+      "properties": {
+        "type": {"type": "string"},
+        "resolution": {"type": "integer"},
+        "maps_used": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "liquids": {
+      "type": "object",
+      "properties": {
+        "type": {"type": "string"},
+        "simulation": {
+          "type": "object",
+          "properties": {
+            "method": {"type": "string"},
+            "resolution": {"type": "integer"},
+            "viscosity": {"type": "number"}
+          }
+        }
+      }
+    },
+    "gases": {
+      "type": "object",
+      "properties": {
+        "type": {"type": "string"},
+        "simulation": {
+          "type": "object",
+          "properties": {
+            "method": {"type": "string"},
+            "resolution": {"type": "integer"},
+            "density": {"type": "number"}
+          }
+        }
+      }
+    },
+    "geometry": {
+      "type": "object",
+      "properties": {
+        "type": {"type": "string"},
+        "polygon_count": {"type": "integer"},
+        "topology": {"type": "string"},
+        "subdivision_level": {"type": "integer"}
+      }
+    },
+    "rendering": {
+      "type": "object",
+      "required": ["engine", "technique"],
+      "properties": {
+        "engine": {"type": "string"},
+        "technique": {"type": "string"},
+        "samples": {"type": "integer"},
+        "render_time": {"type": "number"},
+        "denoised": {"type": "boolean"}
+      }
+    },
+    "post_processing": {
+      "type": "object",
+      "properties": {
+        "effects_applied": {"type": "array", "items": {"type": "string"}},
+        "color_grading": {
+          "type": "object",
+          "properties": {
+            "lut_applied": {"type": "string"},
+            "contrast": {"type": "number"},
+            "saturation": {"type": "number"}
+          }
+        }
+      }
+    },
+    "art_style": {
+      "type": "object",
+      "properties": {
+        "primary_style": {"type": "string"},
+        "influences": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "color": {
+      "type": "object",
+      "properties": {
+        "palette": {"type": "string"},
+        "dominant_colors": {"type": "array", "items": {"type": "string"}},
+        "temperature": {"type": "string"},
+        "mood": {"type": "string"}
+      }
+    }
+  }
+}

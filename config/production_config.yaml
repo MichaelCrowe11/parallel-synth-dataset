@@ -1,0 +1,241 @@
+# Parallel Synth Production Configuration
+# Configuration for large-scale dataset generation
+
+# Output settings
+output:
+  base_dir: "./output"
+  samples_dir: "${output.base_dir}/samples"
+  training_data_dir: "${output.base_dir}/training_data"
+  validation_reports_dir: "${output.base_dir}/reports"
+
+# AWS S3 Configuration
+aws:
+  region: "us-east-1"
+  bucket: "parallel-synth-dataset"
+  profile: null  # Use default credentials
+
+  # Storage class for uploads
+  storage_class: "INTELLIGENT_TIERING"
+
+  # Lifecycle policies
+  lifecycle:
+    transition_to_ia_days: 30
+    transition_to_glacier_days: 90
+
+# Render Settings
+rendering:
+  # Blender executable path
+  blender_executable: "blender"
+
+  # Engine settings
+  engine: "CYCLES"
+  device: "GPU"
+
+  # Quality tiers
+  quality_tiers:
+    low:
+      samples: 64
+      resolution: [1280, 720]
+      percentage: 10  # 10% of dataset
+    medium:
+      samples: 128
+      resolution: [1920, 1080]
+      percentage: 75  # 75% of dataset
+    high:
+      samples: 256
+      resolution: [2560, 1440]
+      percentage: 10  # 10% of dataset
+    ultra:
+      samples: 512
+      resolution: [3840, 2160]
+      percentage: 5   # 5% of dataset
+
+  # Denoising
+  use_denoising: true
+  denoiser: "OPTIX"  # OPTIX, OIDN, or NONE
+
+  # Color management
+  color_space: "sRGB"
+  view_transform: "Filmic"
+
+  # Render passes
+  render_passes:
+    enabled: true
+    passes:
+      - beauty
+      - diffuse
+      - specular
+      - normal
+      - depth
+      - ambient_occlusion
+
+# Distributed Rendering
+distributed:
+  enabled: true
+
+  # Worker configuration
+  workers:
+    # Example: Local machine
+    - hostname: "localhost"
+      gpu_ids: [0]
+      blender_executable: "blender"
+      max_concurrent_jobs: 2
+
+    # Example: Remote render node
+    # - hostname: "render-node-01"
+    #   gpu_ids: [0, 1, 2, 3]
+    #   blender_executable: "/usr/local/bin/blender"
+    #   max_concurrent_jobs: 4
+
+  # Queue settings
+  queue:
+    max_queue_size: 10000
+    priority_levels: 10
+
+  # Monitoring
+  monitoring:
+    enabled: true
+    report_interval_seconds: 60
+    state_save_interval_seconds: 300
+
+# Generation Targets by Category
+generation_targets:
+  camera: 50000000       # 50M samples
+  lighting: 80000000     # 80M samples
+  materials: 100000000   # 100M samples
+  textures: 60000000     # 60M samples
+  liquids: 40000000      # 40M samples
+  gases: 35000000        # 35M samples
+  geometry: 45000000     # 45M samples
+  rendering: 40000000    # 40M samples
+  post_processing: 30000000  # 30M samples
+  art_styles: 25000000   # 25M samples
+  color: 15000000        # 15M samples
+
+# Category weights (for balanced generation)
+category_weights:
+  camera: 1.0
+  lighting: 1.0
+  materials: 1.5      # Generate more material variations
+  textures: 1.0
+  liquids: 0.8        # More computationally expensive
+  gases: 0.8          # More computationally expensive
+  geometry: 1.0
+  rendering: 1.0
+  post_processing: 1.0
+  art_styles: 1.0
+  color: 1.0
+
+# Quality Control
+quality_control:
+  enabled: true
+
+  # Validation settings
+  validation:
+    min_quality_score: 0.7
+    min_resolution: [512, 512]
+    max_noise_level: 0.1
+
+  # Auto-retry settings
+  auto_retry:
+    enabled: true
+    max_retries: 3
+
+  # Sampling for manual review
+  manual_review:
+    enabled: true
+    sample_rate: 0.001  # 0.1% of samples
+
+# Image-Text Pipeline
+image_text:
+  # Caption types to generate
+  caption_types:
+    - short
+    - medium
+    - long
+    - technical
+    - artistic
+
+  # Export formats
+  export_formats:
+    - webdataset
+    - jsonl
+    - parquet
+
+  # WebDataset settings
+  webdataset:
+    shard_size: 1000
+    compression: "gzip"
+
+  # Train/val/test split
+  split:
+    enabled: true
+    train_ratio: 0.8
+    val_ratio: 0.1
+    test_ratio: 0.1
+    shuffle: true
+
+# Video Frame Extraction
+video_extraction:
+  # Frame extraction settings
+  target_fps: 1  # Extract 1 frame per second
+  quality: 95    # JPEG quality
+
+  # Shot detection
+  shot_detection:
+    enabled: true
+    threshold: 30.0
+
+  # Annotation
+  annotation:
+    enabled: true
+    use_ml_models: false  # Future: CLIP, BLIP, etc.
+
+# Logging and Monitoring
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  format: "json"  # json or text
+  file: "${output.base_dir}/logs/parallel_synth.log"
+
+  # Metrics
+  metrics:
+    enabled: true
+    prometheus_port: 9090
+
+# Performance Optimization
+optimization:
+  # Caching
+  cache:
+    enabled: true
+    cache_dir: "${output.base_dir}/cache"
+    max_size_gb: 100
+
+  # Parallel processing
+  parallel:
+    num_workers: 4
+    multiprocessing_method: "spawn"
+
+  # Memory management
+  memory:
+    max_memory_per_worker_gb: 8
+    gc_interval_samples: 100
+
+# Dataset Metadata
+metadata:
+  name: "Parallel Synth 3D Rendering Dataset"
+  version: "1.0.0"
+  description: "Comprehensive 3D rendering and VFX dataset for AI training"
+  license: "MIT"
+  authors:
+    - "Parallel Synth Team"
+  homepage: "https://github.com/MichaelCrowe11/parallel-synth-dataset"
+
+  # Citation
+  citation: |
+    @dataset{parallel_synth_2024,
+      title={Parallel Synth: A Comprehensive 3D Rendering and VFX Dataset},
+      author={Parallel Synth Team},
+      year={2024},
+      publisher={Parallel Synth Media \& Animation},
+      url={https://github.com/MichaelCrowe11/parallel-synth-dataset}
+    }
