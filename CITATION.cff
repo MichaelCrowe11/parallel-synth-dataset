@@ -1,0 +1,33 @@
+# Citation File Format for Parallel Synth Dataset
+# https://citation-file-format.github.io/
+
+cff-version: 1.2.0
+title: "Parallel Synth: A Comprehensive 3D Rendering and VFX Dataset"
+message: "If you use this dataset, please cite it using the metadata from this file."
+type: dataset
+authors:
+  - family-names: "Crowe"
+    given-names: "Michael"
+    orcid: "https://orcid.org/0009-0008-5676-8816"
+    affiliation: "Parallel Synth Media & Animation"
+repository-code: "https://github.com/MichaelCrowe11/parallel-synth-dataset"
+url: "https://github.com/MichaelCrowe11/parallel-synth-dataset"
+abstract: |
+  Parallel Synth is a comprehensive dataset generation system for training
+  multimodal AI models on 3D rendering, VFX, and computer graphics. The dataset
+  targets 500 million samples across 11 major categories including camera angles,
+  lighting setups, materials, textures, fluid simulations, volumetrics, geometry,
+  rendering techniques, post-processing, art styles, and color theory.
+keywords:
+  - 3D rendering
+  - VFX
+  - computer graphics
+  - dataset
+  - machine learning
+  - deep learning
+  - Blender
+  - procedural generation
+  - multimodal AI
+license: MIT
+version: 1.0.0
+date-released: "2024-11-12"

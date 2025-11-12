@@ -1,0 +1,159 @@
+# Parallel Synth - Docker Compose Configuration
+# Orchestrates multiple render workers and services
+
+version: '3.8'
+
+services:
+  # Main generator service
+  generator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: parallelsynth/dataset-generator:latest
+    container_name: parallel-synth-generator
+    runtime: nvidia  # Enable GPU support
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - BLENDER_PATH=/usr/local/bin/blender
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./output:/app/output
+      - ./config:/app/config
+      - ./taxonomy:/app/taxonomy
+    command: >
+      python3 generators/blender_generator.py
+      --output /app/output/samples
+      --taxonomy /app/taxonomy/master_taxonomy.yaml
+      --count 100
+      --categories geometry materials lighting camera
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  # Worker 1 - Can scale this
+  worker-1:
+    image: parallelsynth/dataset-generator:latest
+    container_name: parallel-synth-worker-1
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=0
+      - WORKER_ID=worker-1
+    volumes:
+      - ./output:/app/output
+      - ./config:/app/config
+      - ./taxonomy:/app/taxonomy
+    command: >
+      python3 pipelines/distributed_render.py
+      --config /app/config/production_config.yaml
+      --count 500
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']
+              capabilities: [gpu]
+    profiles:
+      - distributed  # Only start with --profile distributed
+
+  # Worker 2
+  worker-2:
+    image: parallelsynth/dataset-generator:latest
+    container_name: parallel-synth-worker-2
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=1
+      - WORKER_ID=worker-2
+    volumes:
+      - ./output:/app/output
+      - ./config:/app/config
+      - ./taxonomy:/app/taxonomy
+    command: >
+      python3 pipelines/distributed_render.py
+      --config /app/config/production_config.yaml
+      --count 500
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['1']
+              capabilities: [gpu]
+    profiles:
+      - distributed
+
+  # Quality control validator
+  validator:
+    image: parallelsynth/dataset-generator:latest
+    container_name: parallel-synth-validator
+    volumes:
+      - ./output:/app/output
+    command: >
+      python3 quality_control/validator.py
+      --samples-dir /app/output/samples
+      --report /app/output/reports/validation_report.json
+      --min-quality 0.7
+    profiles:
+      - validate
+
+  # Pipeline processor
+  pipeline:
+    image: parallelsynth/dataset-generator:latest
+    container_name: parallel-synth-pipeline
+    volumes:
+      - ./output:/app/output
+    command: >
+      python3 pipelines/image_text_pipeline.py
+      --samples-dir /app/output/samples
+      --output-dir /app/output/training_data
+      --format all
+      --split
+    profiles:
+      - process
+
+  # S3 uploader
+  uploader:
+    image: parallelsynth/dataset-generator:latest
+    container_name: parallel-synth-uploader
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-east-1}
+    volumes:
+      - ./output:/app/output
+      - ~/.aws:/root/.aws:ro  # Mount AWS credentials
+    command: >
+      python3 aws_integration/s3_uploader.py
+      --bucket ${S3_BUCKET:-parallel-synth-dataset}
+      --samples-dir /app/output/samples
+      --category docker_batch
+      --create-bucket
+    profiles:
+      - upload
+
+  # Monitoring dashboard
+  monitor:
+    image: parallelsynth/dataset-generator:latest
+    container_name: parallel-synth-monitor
+    volumes:
+      - ./output:/app/output
+    ports:
+      - "8080:8080"
+    command: >
+      python3 scripts/monitor.py
+      --samples-dir /app/output/samples
+      --refresh 5
+    profiles:
+      - monitor
+
+volumes:
+  output_data:
+    driver: local
+
+networks:
+  default:
+    name: parallel-synth-network

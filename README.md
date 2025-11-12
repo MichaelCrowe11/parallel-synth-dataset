@@ -1,9 +1,16 @@
 # Parallel Synth - 3D Rendering & VFX Dataset
 ## Target: 500 Million Samples
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Blender 3.6+](https://img.shields.io/badge/Blender-3.6+-orange.svg)](https://www.blender.org/)
+[![ORCID](https://img.shields.io/badge/ORCID-0009--0008--5676--8816-green.svg)](https://orcid.org/0009-0008-5676-8816)
+
 A comprehensive dataset scaffolding system for training multimodal AI models on 3D rendering, VFX, and computer graphics.
 
 **Part of the Deep Parallel Workspace** - A unified AI model training infrastructure for Parallel Synth Media & Animation company.
+
+**Created by:** [Michael Crowe](https://orcid.org/0009-0008-5676-8816) | **Organization:** Parallel Synth Media & Animation
 
 ## Dataset Overview
 
